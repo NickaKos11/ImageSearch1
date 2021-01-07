@@ -9,8 +9,8 @@ import UIKit
 
 class ImageViewController: UIViewController {
     
-    let spacing: CGFloat = 5
-    private let numberOfItemsPerRow: CGFloat = 3
+    let spacing: CGFloat = 15
+    let numberOfItemsPerRow: CGFloat = 3
     
     private var images: [UIImage?] = []
     private var imagesInfo = [ImageInfo]()
@@ -28,12 +28,13 @@ class ImageViewController: UIViewController {
     }
     
     private func loadImages() {
-        NetworkService.shared.fetchImages(amount: 20) { (result) in
+        NetworkService.shared.fetchImages(amount: 9) { (result) in
             switch result {
             case let .failure(error):
                 print(error)
             case let .success(imagesInfo):
                 self.imagesInfo=imagesInfo
+                self.images = Array(repeating: nil, count: imagesInfo.count)
                 self.collectionView.reloadData()
             }
         }
@@ -41,11 +42,10 @@ class ImageViewController: UIViewController {
     
     private func loadImage(for cell: ImageCell, at index: Int) {
         let info = imagesInfo[index]
-        NetworkService.shared.loadImage(from: info.previewURL) { (image) in
-            if let image=image {
-                cell.configure(with: image)
+        NetworkService.shared.loadImage(from: info.urls.full) { (image) in
+            self.images[index] = image
+            cell.configure(with: self.images[index])
 
-            }
         }
     }
 
@@ -71,7 +71,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 extension ImageViewController:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let numberOfItemsPerRow: CGFloat = 3
+        
         let width = view.bounds.width
         let summarySpacing = spacing * (numberOfItemsPerRow - 1)
         let insets = 2 * spacing
@@ -85,11 +85,11 @@ extension ImageViewController:UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        50
+        spacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        10
+        spacing
     }
 }
 

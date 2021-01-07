@@ -8,8 +8,12 @@
 import Foundation
 
 struct ImageInfo: Decodable {
-    var id: Int
-    var previewURL: URL?
-    var webformatURL: URL?
+    var id: String
+    var urls: url
+    
+}
+
+struct url: Decodable {
+    var full: URL?
     
 }

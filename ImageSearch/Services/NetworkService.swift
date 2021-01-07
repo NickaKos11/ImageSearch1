@@ -12,13 +12,13 @@ class NetworkService {
 
     static let shared = NetworkService()
     
-    private let apiKey = "19799220-e7892ff497dc1256fdab7c43b"
+    private let apiKey = "AIjEbPpxvP8JvssuFc4H_i2jPjXgqzD1xry0KtDLTJE"
     
     private var baseUrlComponent: URLComponents {
-        var _urlComps = URLComponents(string: "https://pixabay.com")!
-        _urlComps.path = "/api"
+        var _urlComps = URLComponents(string: "https://api.unsplash.com")!
+        _urlComps.path = "/search/photos/"
         _urlComps.queryItems = [
-            URLQueryItem(name: "key", value: apiKey)
+            URLQueryItem(name: "client_id", value: apiKey)
         ]
         return _urlComps
     }
@@ -46,7 +46,8 @@ class NetworkService {
         var urlComps = baseUrlComponent
         urlComps.queryItems? += [
             URLQueryItem(name: "per_page", value: "\(amount)"),
-            URLQueryItem(name: "editors_choice", value: "\(true)")
+            URLQueryItem(name: "query", value: "cat"),
+            URLQueryItem(name: "orientation", value: "squarish")
         ]
         
         guard let url = urlComps.url else {
@@ -74,7 +75,7 @@ class NetworkService {
                 let serverResponse = try JSONDecoder().decode(ServerResponse<ImageInfo>.self, from: data)
                 
                 DispatchQueue.main.async {
-                    completion(.success(serverResponse.hits))
+                    completion(.success(serverResponse.results))
                 }
             }
             

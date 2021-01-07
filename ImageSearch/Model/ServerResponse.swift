@@ -8,5 +8,5 @@
 import Foundation
 
 struct ServerResponse<Object: Decodable>: Decodable {
-    var hits: [Object]
+    var results: [Object]
 }
