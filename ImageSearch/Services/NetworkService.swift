@@ -12,7 +12,7 @@ class NetworkService {
 
     static let shared = NetworkService()
     
-    private let apiKey = "14489181-14ed7b79553d596cdd36bc2d3"
+    private let apiKey = "19799220-e7892ff497dc1256fdab7c43b"
     
     private var baseUrlComponent: URLComponents {
         var _urlComps = URLComponents(string: "https://pixabay.com")!
