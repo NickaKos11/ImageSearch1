@@ -9,12 +9,32 @@ import UIKit
 
 class ImageViewController: UIViewController {
     
+    var rowOfCell: Int = 0
+    
     let spacing: CGFloat = 15
     let numberOfItemsPerRow: CGFloat = 3
     
     private var images: [UIImage?] = []
     private var imagesInfo = [ImageInfo]()
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        rowOfCell = indexPath.row
+        print(rowOfCell)
+        performSegue(withIdentifier: "ShowSecondVC", sender: indexPath)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowSecondVC" {
+            guard let secondVC = segue.destination as? SecondViewController
+            else {
+                fatalError()
+            }
+            
+            let fullInfo = imagesInfo[rowOfCell]
+            secondVC.url = fullInfo.urls.full
+        }
+    }
+    
     @IBOutlet private weak var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()

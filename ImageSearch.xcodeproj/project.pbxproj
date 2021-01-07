@@ -18,6 +18,7 @@
 		9862208D25A6E65D00EC58C9 /* SessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862208C25A6E65D00EC58C9 /* SessionError.swift */; };
 		9862209625A6F53E00EC58C9 /* ImageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862209525A6F53E00EC58C9 /* ImageInfo.swift */; };
 		9862209925A7017000EC58C9 /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862209825A7017000EC58C9 /* ServerResponse.swift */; };
+		986220A125A775F000EC58C9 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986220A025A775F000EC58C9 /* SecondViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		9862208C25A6E65D00EC58C9 /* SessionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionError.swift; sourceTree = "<group>"; };
 		9862209525A6F53E00EC58C9 /* ImageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfo.swift; sourceTree = "<group>"; };
 		9862209825A7017000EC58C9 /* ServerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResponse.swift; sourceTree = "<group>"; };
+		986220A025A775F000EC58C9 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,8 +70,7 @@
 			children = (
 				9862209125A6F4E300EC58C9 /* Model */,
 				9862208B25A6E64200EC58C9 /* Services */,
-				9862208125A6273400EC58C9 /* ImageViewController.swift */,
-				9862208425A6283F00EC58C9 /* ImageCell.swift */,
+				9862209F25A775CD00EC58C9 /* Controllers */,
 				9862209325A6F4F100EC58C9 /* AppDelegates */,
 				9862208F25A6EF2F00EC58C9 /* Storyboards */,
 				9862207125A4A99B00EC58C9 /* Assets.xcassets */,
@@ -99,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				9862209525A6F53E00EC58C9 /* ImageInfo.swift */,
+				9862208425A6283F00EC58C9 /* ImageCell.swift */,
 				9862208C25A6E65D00EC58C9 /* SessionError.swift */,
 				9862209825A7017000EC58C9 /* ServerResponse.swift */,
 			);
@@ -112,6 +114,15 @@
 				9862206A25A4A99700EC58C9 /* SceneDelegate.swift */,
 			);
 			path = AppDelegates;
+			sourceTree = "<group>";
+		};
+		9862209F25A775CD00EC58C9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9862208125A6273400EC58C9 /* ImageViewController.swift */,
+				986220A025A775F000EC58C9 /* SecondViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +198,7 @@
 				9862209625A6F53E00EC58C9 /* ImageInfo.swift in Sources */,
 				9862208925A6E1ED00EC58C9 /* NetworkService.swift in Sources */,
 				9862206925A4A99700EC58C9 /* AppDelegate.swift in Sources */,
+				986220A125A775F000EC58C9 /* SecondViewController.swift in Sources */,
 				9862208525A6283F00EC58C9 /* ImageCell.swift in Sources */,
 				9862208225A6273400EC58C9 /* ImageViewController.swift in Sources */,
 				9862209925A7017000EC58C9 /* ServerResponse.swift in Sources */,
