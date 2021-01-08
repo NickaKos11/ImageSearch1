@@ -42,11 +42,11 @@ class NetworkService {
         }.resume()
         
     }
-    func fetchImages(amount:Int, completion: @escaping (Result<[ImageInfo], SessionError>) -> Void) {
+    func fetchImages(query: String, amount:Int, completion: @escaping (Result<[ImageInfo], SessionError>) -> Void) {
         var urlComps = baseUrlComponent
         urlComps.queryItems? += [
             URLQueryItem(name: "per_page", value: "\(amount)"),
-            URLQueryItem(name: "query", value: "dog"),
+            URLQueryItem(name: "query", value: query),
             URLQueryItem(name: "orientation", value: "squarish")
         ]
         

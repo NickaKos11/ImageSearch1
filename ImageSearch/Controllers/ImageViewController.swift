@@ -20,11 +20,11 @@ class ImageViewController: UIViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         rowOfCell = indexPath.row
         print(rowOfCell)
+
         performSegue(withIdentifier: "ShowSecondVC", sender: indexPath)
     }
         
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let fullInfo = imagesInfo[rowOfCell]
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {        let fullInfo = imagesInfo[rowOfCell]
         if segue.identifier == "ShowSecondVC" {
             guard let secondVC = segue.destination as? SecondViewController
             else {
@@ -39,38 +39,80 @@ class ImageViewController: UIViewController {
     }
     
     @IBOutlet private weak var collectionView: UICollectionView!
+    private var activityIndicator = UIActivityIndicatorView()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
        configure()
-        loadImages()
+        //loadImages()
+        getCachedImages()
+        
     }
     
     private func configure() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        activityIndicator.style = .large
+        activityIndicator.color = .blue
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.frame = collectionView.bounds
+        activityIndicator.autoresizingMask = [.flexibleWidth, .flexibleWidth]
+        collectionView.addSubview(activityIndicator)
+        
+        setupSearchController()
+        
+      
     }
     
-    private func loadImages() {
-        NetworkService.shared.fetchImages(amount: 9) { (result) in
+    private func setupSearchController() {
+        let searchC = UISearchController(searchResultsController: nil)
+        searchC.searchBar.placeholder = "Search"
+        searchC.searchBar.delegate = self
+        searchC.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchC
+    }
+    
+    private func loadImages(query: String) {
+        images.removeAll()
+        updateUI()
+        activityIndicator.startAnimating()
+        NetworkService.shared.fetchImages(query: query, amount: 9) { (result) in
+            self.activityIndicator.stopAnimating()
             switch result {
             case let .failure(error):
                 print(error)
             case let .success(imagesInfo):
                 self.imagesInfo=imagesInfo
                 self.images = Array(repeating: nil, count: imagesInfo.count)
-                self.collectionView.reloadData()
+                self.updateUI()
             }
         }
     }
     
+    private func updateUI() {
+        self.collectionView.reloadSections(IndexSet(arrayLiteral: 0))
+    }
+    
+    private func getCachedImages() {
+        CacheManager.shared.getCachedImages { (images) in
+            self.images = images
+            self.updateUI()
+        }
+    }
+    
     private func loadImage(for cell: ImageCell, at index: Int) {
+        if let image = images[index] {
+            cell.configure(with: image)
+            return
+        }
         let info = imagesInfo[index]
         NetworkService.shared.loadImage(from: info.urls.full) { (image) in
+            if index < self.images.count {
             self.images[index] = image
+                CacheManager.shared.cacheImage(image, with: info.id)
             cell.configure(with: self.images[index])
-
+            }
         }
     }
 
@@ -78,14 +120,13 @@ class ImageViewController: UIViewController {
 
 extension ImageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return imagesInfo.count
+    return images.count
 }
 
 func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as? ImageCell else {
         fatalError("Incorrect Cell Format")
     }
-    
     
     loadImage(for: cell, at: indexPath.row)
     
@@ -115,6 +156,20 @@ extension ImageViewController:UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         spacing
+    }
+}
+
+extension ImageViewController: UISearchBarDelegate {
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        return true
+    }
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        guard let query = searchBar.text, query.count >= 3 else {
+            return
+        }
+        
+        loadImages(query: query)
     }
 }
 

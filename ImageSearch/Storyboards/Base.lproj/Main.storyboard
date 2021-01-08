@@ -73,7 +73,7 @@
                     <navigationItem key="navigationItem" id="U2H-7g-JGz"/>
                     <connections>
                         <outlet property="collectionView" destination="bgG-8o-fa4" id="6cj-nc-mT2"/>
-                        <segue destination="nWq-2G-dn4" kind="show" identifier="ShowSecondVC" id="yhs-WN-Ee3"/>
+                        <segue destination="nWq-2G-dn4" kind="showDetail" identifier="ShowSecondVC" id="yhs-WN-Ee3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5rC-Yy-pmW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -85,17 +85,17 @@
             <objects>
                 <viewController id="nWq-2G-dn4" customClass="SecondViewController" customModule="ImageSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DS2-mt-qgB">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V6E-Uk-23h">
-                                <rect key="frame" x="30" y="118" width="354" height="354"/>
+                                <rect key="frame" x="30" y="30" width="354" height="354"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="354" id="WOJ-pO-rKG"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fh2-Kg-1t6">
-                                <rect key="frame" x="65" y="505.5" width="49" height="23"/>
+                                <rect key="frame" x="65" y="417.5" width="49" height="23"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Label">
                                         <attributes>
@@ -106,7 +106,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="aOg-n7-9oZ">
-                                <rect key="frame" x="30" y="503.5" width="35" height="27.5"/>
+                                <rect key="frame" x="30" y="415.5" width="35" height="27.5"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="9V2-xe-D3A"/>
@@ -115,7 +115,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jg0-fr-dYD">
-                                <rect key="frame" x="30" y="552" width="55" height="24.5"/>
+                                <rect key="frame" x="30" y="464" width="55" height="24.5"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Label">
                                         <attributes>
@@ -127,13 +127,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H13-Gq-aMR">
-                                <rect key="frame" x="30" y="584" width="41.5" height="21"/>
+                                <rect key="frame" x="30" y="496" width="41.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ebd-l6-9XU">
-                                <rect key="frame" x="30" y="625" width="46" height="22.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="30" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ebd-l6-9XU">
+                                <rect key="frame" x="30" y="537" width="46" height="22.5"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Label">
                                         <attributes>
