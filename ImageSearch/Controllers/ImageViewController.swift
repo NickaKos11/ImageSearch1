@@ -22,20 +22,25 @@ class ImageViewController: UIViewController {
         print(rowOfCell)
         performSegue(withIdentifier: "ShowSecondVC", sender: indexPath)
     }
-    
+        
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let fullInfo = imagesInfo[rowOfCell]
         if segue.identifier == "ShowSecondVC" {
             guard let secondVC = segue.destination as? SecondViewController
             else {
                 fatalError()
             }
-            
-            let fullInfo = imagesInfo[rowOfCell]
-            secondVC.url = fullInfo.urls.full
+            secondVC.image = images[rowOfCell]
+            secondVC.detail = fullInfo.description
+            secondVC.likes = fullInfo.likes
+            secondVC.author = fullInfo.user.name
+            secondVC.user = fullInfo.user.username
         }
     }
     
     @IBOutlet private weak var collectionView: UICollectionView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        configure()

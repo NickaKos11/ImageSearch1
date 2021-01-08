@@ -9,22 +9,32 @@ import UIKit
 
 class SecondViewController: UIViewController {
 
-    var id: String?
-    var url: URL?
+    var detail: String?
+    var image: UIImage?
+    var likes: Int?
+    var author: String?
+    var user: String?
 
     var pictureName: String?
     
-    @IBOutlet weak var fullPicture: UIImageView!
+    @IBOutlet weak var userId: UILabel!
+    @IBOutlet weak var username: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
+    @IBOutlet weak var likesAmount: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
-
+        self.descriptionLabel.text = self.detail
+        self.fullPicture.image = self.image
+        self.likesAmount.text = String(likes ?? 0)
+        self.username.text = self.author
+        self.userId.text = "@\(user ?? "-")"
         }
-    func configure() {
-        NetworkService.shared.loadImage(from: url) { (image) in
-            self.fullPicture.image = image
-    }
-    }
+    
+    @IBOutlet weak var fullPicture: UIImageView!
+   
+ 
     
 
 }

@@ -46,7 +46,7 @@ class NetworkService {
         var urlComps = baseUrlComponent
         urlComps.queryItems? += [
             URLQueryItem(name: "per_page", value: "\(amount)"),
-            URLQueryItem(name: "query", value: "cat"),
+            URLQueryItem(name: "query", value: "dog"),
             URLQueryItem(name: "orientation", value: "squarish")
         ]
         
