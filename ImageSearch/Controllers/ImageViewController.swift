@@ -9,6 +9,9 @@ import UIKit
 
 class ImageViewController: UIViewController {
     
+    @IBOutlet private weak var collectionView: UICollectionView!
+    private var activityIndicator = UIActivityIndicatorView()
+    
     var rowOfCell: Int = 0
     
     let spacing: CGFloat = 15
@@ -38,31 +41,31 @@ class ImageViewController: UIViewController {
         }
     }
     
-    @IBOutlet private weak var collectionView: UICollectionView!
-    private var activityIndicator = UIActivityIndicatorView()
+
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
        configure()
         //loadImages()
-        getCachedImages()
+       getCachedImages()
         
     }
     
     private func configure() {
-        collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.dataSource = self
+        setupSpinner()
+        setupSearchController()
+    }
+    
+    private func setupSpinner() {
+        activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .large
         activityIndicator.color = .blue
-        activityIndicator.hidesWhenStopped = true
         activityIndicator.frame = collectionView.bounds
-        activityIndicator.autoresizingMask = [.flexibleWidth, .flexibleWidth]
+        activityIndicator.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.addSubview(activityIndicator)
-        
-        setupSearchController()
-        
-      
     }
     
     private func setupSearchController() {
@@ -95,11 +98,11 @@ class ImageViewController: UIViewController {
     }
     
     private func getCachedImages() {
-        CacheManager.shared.getCachedImages { (images) in
-            self.images = images
-            self.updateUI()
-        }
-    }
+       CacheManager.shared.getCachedImages { (images) in
+           self.images = images
+           self.updateUI()
+       }
+   }
     
     private func loadImage(for cell: ImageCell, at index: Int) {
         if let image = images[index] {
@@ -110,7 +113,7 @@ class ImageViewController: UIViewController {
         NetworkService.shared.loadImage(from: info.urls.full) { (image) in
             if index < self.images.count {
             self.images[index] = image
-                CacheManager.shared.cacheImage(image, with: info.id)
+                //CacheManager.shared.cacheImage(image, with: info.id)
             cell.configure(with: self.images[index])
             }
         }
@@ -165,7 +168,8 @@ extension ImageViewController: UISearchBarDelegate {
         return true
     }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        guard let query = searchBar.text, query.count >= 3 else {
+
+        guard let query = searchBar.text else {
             return
         }
         

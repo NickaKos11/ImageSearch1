@@ -117,6 +117,7 @@ class CacheManager {
     private func getCachesDirectory() -> URL {
         let url = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)
             .first!.appendingPathComponent("CachedImages")
+        print (url)
         
         if !fileManager.fileExists(atPath: url.path) {
             try! fileManager.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
