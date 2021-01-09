@@ -14,13 +14,12 @@ class SecondViewController: UIViewController {
     var likes: Int?
     var author: String?
     var user: String?
-
     var pictureName: String?
     
     @IBOutlet weak var userId: UILabel!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    
+    @IBOutlet weak var fullPicture: UIImageView!
     @IBOutlet weak var likesAmount: UILabel!
     
     override func viewDidLoad() {
@@ -31,10 +30,6 @@ class SecondViewController: UIViewController {
         self.username.text = self.author
         self.userId.text = "@\(user ?? "-")"
         }
-    
-    @IBOutlet weak var fullPicture: UIImageView!
-   
- 
     
 
 }

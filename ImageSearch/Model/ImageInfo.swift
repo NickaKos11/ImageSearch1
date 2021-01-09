@@ -13,12 +13,10 @@ struct ImageInfo: Decodable {
     var description: String?
     var likes: Int?
     var user: user
-    
 }
 
 struct url: Decodable {
     var full: URL?
-    
 }
 
 struct user:Decodable {

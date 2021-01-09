@@ -22,5 +22,4 @@ enum SessionError: Error {
             return error.localizedDescription
         }
     }
-    
 }

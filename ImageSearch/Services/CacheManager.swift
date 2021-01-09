@@ -17,7 +17,7 @@ class CacheManager {
     
     
     //MARK:- Cache Image
-    ///Completion is executed on background thread
+
     func cacheImage(_ image: UIImage?, with id: String, completion: ((Bool) -> Void)? = nil) {
         DispatchQueue.global(qos: .utility).async { [self] in
             guard let image = image,

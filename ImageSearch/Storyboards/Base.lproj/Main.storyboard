@@ -66,7 +66,7 @@
                         <constraints>
                             <constraint firstItem="bgG-8o-fa4" firstAttribute="leading" secondItem="dGx-sL-6vr" secondAttribute="leading" id="0UR-97-d6h"/>
                             <constraint firstItem="dGx-sL-6vr" firstAttribute="bottom" secondItem="bgG-8o-fa4" secondAttribute="bottom" id="2zX-Ig-Fg2"/>
-                            <constraint firstItem="bgG-8o-fa4" firstAttribute="top" secondItem="dGx-sL-6vr" secondAttribute="top" id="7VH-wM-cpO"/>
+                            <constraint firstItem="bgG-8o-fa4" firstAttribute="top" secondItem="dGx-sL-6vr" secondAttribute="top" id="T9D-Ae-lPr"/>
                             <constraint firstItem="dGx-sL-6vr" firstAttribute="trailing" secondItem="bgG-8o-fa4" secondAttribute="trailing" id="r0x-bW-tHv"/>
                         </constraints>
                     </view>
@@ -133,7 +133,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="30" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ebd-l6-9XU">
-                                <rect key="frame" x="30" y="537" width="46" height="22.5"/>
+                                <rect key="frame" x="30" y="537" width="48" height="24"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Label">
                                         <attributes>

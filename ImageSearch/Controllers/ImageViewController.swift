@@ -12,44 +12,20 @@ class ImageViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     private var activityIndicator = UIActivityIndicatorView()
     
+    private var images: [UIImage?] = []
+    private var imagesInfo = [ImageInfo]()
+    
     var rowOfCell: Int = 0
     
     let spacing: CGFloat = 15
     let numberOfItemsPerRow: CGFloat = 3
     
-    private var images: [UIImage?] = []
-    private var imagesInfo = [ImageInfo]()
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        rowOfCell = indexPath.row
-        print(rowOfCell)
-
-        performSegue(withIdentifier: "ShowSecondVC", sender: indexPath)
-    }
-        
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {        let fullInfo = imagesInfo[rowOfCell]
-        if segue.identifier == "ShowSecondVC" {
-            guard let secondVC = segue.destination as? SecondViewController
-            else {
-                fatalError()
-            }
-            secondVC.image = images[rowOfCell]
-            secondVC.detail = fullInfo.description
-            secondVC.likes = fullInfo.likes
-            secondVC.author = fullInfo.user.name
-            secondVC.user = fullInfo.user.username
-        }
-    }
     
-
-    
+    //MARK:- Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
        configure()
-        //loadImages()
-       getCachedImages()
-        
     }
     
     private func configure() {
@@ -97,13 +73,6 @@ class ImageViewController: UIViewController {
         self.collectionView.reloadSections(IndexSet(arrayLiteral: 0))
     }
     
-    private func getCachedImages() {
-       CacheManager.shared.getCachedImages { (images) in
-           self.images = images
-           self.updateUI()
-       }
-   }
-    
     private func loadImage(for cell: ImageCell, at index: Int) {
         if let image = images[index] {
             cell.configure(with: image)
@@ -113,14 +82,61 @@ class ImageViewController: UIViewController {
         NetworkService.shared.loadImage(from: info.urls.full) { (image) in
             if index < self.images.count {
             self.images[index] = image
-                //CacheManager.shared.cacheImage(image, with: info.id)
+                CacheManager.shared.cacheImage(image, with: info.id)
             cell.configure(with: self.images[index])
             }
         }
     }
+    
+    private func getCachedImages() {
+       CacheManager.shared.getCachedImages { (images) in
+           self.images = images
+           self.updateUI()
+       }
+   }
+    
+    //MARK:- SecondVC
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        rowOfCell = indexPath.row
+        print(rowOfCell)
 
+        performSegue(withIdentifier: "ShowSecondVC", sender: indexPath)
+    }
+        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {        let fullInfo = imagesInfo[rowOfCell]
+        if segue.identifier == "ShowSecondVC" {
+            guard let secondVC = segue.destination as? SecondViewController
+            else {
+                fatalError()
+            }
+            secondVC.image = images[rowOfCell]
+            secondVC.detail = fullInfo.description
+            secondVC.likes = fullInfo.likes
+            secondVC.author = fullInfo.user.name
+            secondVC.user = fullInfo.user.username
+        }
+    }
+    
+    //MARK:- an attempt to search through collections (not fully implemented)
+    private func loadCollections(query: String) {
+        images.removeAll()
+        updateUI()
+        activityIndicator.startAnimating()
+        NetworkService.shared.searchCollections(query: query, amount: 9) { (result) in
+            self.activityIndicator.stopAnimating()
+            switch result {
+            case let .failure(error):
+                print(error)
+            case let .success(imagesInfo):
+                self.imagesInfo=imagesInfo
+                self.images = Array(repeating: nil, count: imagesInfo.count)
+                self.updateUI()
+            }
+        }
+    }
 }
 
+//MARK:- Data Source & Delegate
 extension ImageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return images.count
@@ -137,6 +153,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 }
 }
 
+//MARK:- Flow Layout
 extension ImageViewController:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -162,6 +179,7 @@ extension ImageViewController:UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK:- SearchBarDelegate
 extension ImageViewController: UISearchBarDelegate {
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
@@ -172,7 +190,7 @@ extension ImageViewController: UISearchBarDelegate {
         guard let query = searchBar.text else {
             return
         }
-        
+
         loadImages(query: query)
     }
 }
