@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bgG-8o-fa4">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="158" width="414" height="704"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ly9-5L-SHt">
                                     <size key="itemSize" width="187" height="167"/>
@@ -66,7 +66,7 @@
                         <constraints>
                             <constraint firstItem="bgG-8o-fa4" firstAttribute="leading" secondItem="dGx-sL-6vr" secondAttribute="leading" id="0UR-97-d6h"/>
                             <constraint firstItem="dGx-sL-6vr" firstAttribute="bottom" secondItem="bgG-8o-fa4" secondAttribute="bottom" id="2zX-Ig-Fg2"/>
-                            <constraint firstItem="bgG-8o-fa4" firstAttribute="top" secondItem="dGx-sL-6vr" secondAttribute="top" id="T9D-Ae-lPr"/>
+                            <constraint firstItem="bgG-8o-fa4" firstAttribute="top" secondItem="dGx-sL-6vr" secondAttribute="top" constant="70" id="7VH-wM-cpO"/>
                             <constraint firstItem="dGx-sL-6vr" firstAttribute="trailing" secondItem="bgG-8o-fa4" secondAttribute="trailing" id="r0x-bW-tHv"/>
                         </constraints>
                     </view>

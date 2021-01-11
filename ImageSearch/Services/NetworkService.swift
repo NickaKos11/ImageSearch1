@@ -51,6 +51,27 @@ class NetworkService {
         }.resume()
         
     }
+    
+    func loadCollectionImage(from url: URL?, completion: @escaping (UIImage?) -> Void) {
+        guard let url = url else {
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { (data, _, _) in
+            DispatchQueue.main.async {
+                if let data = data {
+                    completion(UIImage(data: data))
+                } else {
+                    completion(nil)
+                }
+            }
+            
+        }.resume()
+        
+    }
+    
+    
     func fetchImages(query: String, amount:Int, completion: @escaping (Result<[ImageInfo], SessionError>) -> Void) {
         var urlComps = baseUrlComponent
         urlComps.queryItems? += [
@@ -98,12 +119,13 @@ class NetworkService {
     }
     
     //MARK:- Load Collections
-    func searchCollections(query: String, amount:Int, completion: @escaping (Result<[ImageInfo], SessionError>) -> Void) {
+    func searchCollections(query: String, amount:Int, completion: @escaping (Result<[CollectionInfo], SessionError>) -> Void) {
         var urlComps = baseCollectionUrl
         urlComps.queryItems? += [
             URLQueryItem(name: "per_page", value: "\(amount)"),
             URLQueryItem(name: "query", value: query),
             URLQueryItem(name: "orientation", value: "squarish")
+ 
         ]
         
         guard let url = urlComps.url else {
@@ -128,7 +150,7 @@ class NetworkService {
             }
             
             do {
-                let serverResponse = try JSONDecoder().decode(ServerResponse<ImageInfo>.self, from: data)
+                let serverResponse = try JSONDecoder().decode(ServerResponse<CollectionInfo>.self, from: data)
                 
                 DispatchQueue.main.async {
                     completion(.success(serverResponse.results))

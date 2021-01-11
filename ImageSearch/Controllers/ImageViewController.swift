@@ -10,15 +10,20 @@ import UIKit
 class ImageViewController: UIViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
+    
+    
     private var activityIndicator = UIActivityIndicatorView()
     
     private var images: [UIImage?] = []
     private var imagesInfo = [ImageInfo]()
+    private var collectionInfo = [CollectionInfo]()
     
     var rowOfCell: Int = 0
     
     let spacing: CGFloat = 15
     let numberOfItemsPerRow: CGFloat = 3
+    
+    let switchController = UISwitch(frame: CGRect(x: 300, y: 135, width: 150, height: 50))
     
     
     //MARK:- Lifecycle
@@ -26,6 +31,20 @@ class ImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        configure()
+ 
+        switchController.addTarget(self, action: #selector(switchAction), for: .touchUpInside)
+        var label = UILabel(frame: CGRect(x: 30, y: 100, width: 300, height: 100))
+
+        label.text = "Включить поиск по коллекциям"
+        self.view.addSubview(label)
+        self.view.addSubview(switchController)
+    }
+    
+    @objc func switchAction(){
+        if switchController.isOn == true {
+  
+      print("Switch tapped")
+        }
     }
     
     private func configure() {
@@ -33,6 +52,7 @@ class ImageViewController: UIViewController {
         collectionView.dataSource = self
         setupSpinner()
         setupSearchController()
+        getCachedImages()
     }
     
     private func setupSpinner() {
@@ -52,6 +72,7 @@ class ImageViewController: UIViewController {
         navigationItem.searchController = searchC
     }
     
+
     private func loadImages(query: String) {
         images.removeAll()
         updateUI()
@@ -78,14 +99,31 @@ class ImageViewController: UIViewController {
             cell.configure(with: image)
             return
         }
-        let info = imagesInfo[index]
-        NetworkService.shared.loadImage(from: info.urls.full) { (image) in
-            if index < self.images.count {
-            self.images[index] = image
-                CacheManager.shared.cacheImage(image, with: info.id)
-            cell.configure(with: self.images[index])
+ 
+        
+        if switchController.isOn == true {
+            let info = collectionInfo[index]
+            
+            NetworkService.shared.loadCollectionImage(from: info.cover_photo.urls.full) { (image) in
+                if index < self.images.count {
+                self.images[index] = image
+                cell.configure(with: self.images[index])
+                }
             }
+
+        } else {
+            let info = imagesInfo[index]
+            NetworkService.shared.loadImage(from: info.urls.full) { (image) in
+                if index < self.images.count {
+                self.images[index] = image
+                    CacheManager.shared.cacheImage(image, with: info.id)
+                cell.configure(with: self.images[index])
+                }
+            }
+
         }
+
+   
     }
     
     private func getCachedImages() {
@@ -117,7 +155,7 @@ class ImageViewController: UIViewController {
         }
     }
     
-    //MARK:- an attempt to search through collections (not fully implemented)
+    //MARK:-  search through collections
     private func loadCollections(query: String) {
         images.removeAll()
         updateUI()
@@ -128,7 +166,7 @@ class ImageViewController: UIViewController {
             case let .failure(error):
                 print(error)
             case let .success(imagesInfo):
-                self.imagesInfo=imagesInfo
+                self.collectionInfo=imagesInfo
                 self.images = Array(repeating: nil, count: imagesInfo.count)
                 self.updateUI()
             }
@@ -186,12 +224,21 @@ extension ImageViewController: UISearchBarDelegate {
         return true
     }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-
-        guard let query = searchBar.text else {
-            return
+        if switchController.isOn == true {
+            guard let query = searchBar.text else {
+                return
+            }
+            loadCollections(query: query)
+        } else {
+            guard let query = searchBar.text else {
+                return
+            }
+            loadImages(query: query)
         }
 
-        loadImages(query: query)
+
+        
+
     }
 }
 
